@@ -1,0 +1,129 @@
+<html>
+
+<head>
+  <title>Tag Helper</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.3/chosen.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="taghelper.css">
+</head>
+
+<body>
+
+  <!-- <input data-bind="value: Name"/> -->
+
+  <div style="margin-left: 25px;">
+
+
+
+    <script id="customMessageTemplate" type="text/html">
+      <em class="customMessage" data-bind="validationMessage: field"></em>
+    </script>
+
+    <fieldset>
+      <legend class="well">
+        User: <strong data-bind="text: errors().length"></strong> errors
+      </legend>
+
+
+      <p>Mouse over the tag name for more information.</p>
+
+      <div class="row">
+        <label title="the short or fqdn name of the resource">Name</label>
+        <input type="text" data-bind="textInput: Name" />
+      </div>
+
+      <div class="row" data-bind="validationOptions: { messageTemplate: 'customMessageTemplate' }">
+        <label title="indicates what division owns the resource">division</label>
+        <!-- TODO use long names (find them...)-->
+        <select data-bind="value: division" data-none-selected-text="Nothing selected">
+            <option></option>
+            <option>ad</option>
+            <option>bs</option>
+            <option>cb</option>
+            <option>cp</option>
+            <option>cr</option>
+            <option>hd</option>
+            <option>ph</option>
+            <option>ra</option>
+            <option>sr</option>
+            <option>vi</option>
+          </select>
+      </div>
+
+
+      <div class="row" data-bind="validationOptions: { messageTemplate: 'customMessageTemplate' }">
+        <label title="indicates which department or lab owns the resource">department</label>
+        <select id="department_select" data-placeholder="Select an item..." data-bind="options: departmentOptions, value: department">
+          </select>
+      </div>
+
+      <div class="row">
+        <label
+        title="The “technical_contact” tag is used to provide contact information for someone responsible for the administration/operation of the resource."
+        >technical_contact</label>
+        <input data-bind="value: technical_contact"/>
+      </div>
+
+      <div class="row">
+        <label
+        title='The "budget_number" tag is used to provide the budget number that is paying for this resource. This tag is currently not used, but may be in the future'
+        >budget_number</label>
+        <input type="number" data-bind="value: budget_number"/>
+      </div>
+
+      <div class="row">
+        <label
+        title="a short description of the the resource">description</label>
+        <textarea data-bind="value: description" rows="3"></textarea>
+      </div>
+
+      <div class="row">
+        <label title="he name of the service, product or platform to which the resource belongs">service</label>
+        <input data-bind="value: service"/>
+      </div>
+
+      <div class="row">
+        <label
+        title="indicates what project the resource belongs to, if any">project</label>
+        <input data-bind="value: project"/>
+      </div>
+
+      <div class="row">
+        <label title="the service category that the resource belongs to">service_category</label>
+        <input data-bind="value: service_category"/>
+      </div>
+
+
+      <div class="row">
+        <label title="indicates the highest level sensitivity level of the data that is stored, processed on this resource">data_classification</label>
+        <select data-bind="value: data_classification">
+          <option></option>
+          <option>I</option>
+          <option>II</option>
+          <option>III</option>
+        </select>
+      </div>
+
+
+    </fieldset>
+
+    <fieldset>
+      <button type="button" data-bind='click: submit'>Submit</button> &nbsp;
+      <button type="button" data-bind='click: reset'>Reset</button> &nbsp;
+    </fieldset>
+
+  </div>
+
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout-validation/2.0.3/knockout.validation.min.js" </script>
+    < script src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity = "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin = "anonymous" >
+  </script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.3/chosen.jquery.min.js"></script>
+  <script src="taghelper.js" tyoe="text/javascript" charset="utf8"></script>
+</body>
+
+</html>
