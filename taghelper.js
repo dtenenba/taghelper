@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
   $.ajax({
-    // url: "https://toolbox.fhcrc.org/sw2srv/get_depts",
-    url: 'depts.json', // FIXME CHANGEME TODO change this back
+    url: "https://toolbox.fhcrc.org/sw2srv/get_depts",
+    // url: 'depts.json', // FIXME CHANGEME TODO change this back
     jsonp: 'callback',
     dataType: 'jsonp'
   });
