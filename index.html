@@ -2,6 +2,7 @@
 
 <head>
   <title>Tag Helper</title>
+  <!-- <script src="json2hcl.js" type="text/javacript" charset="utf8"></script> -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.3/chosen.min.css" crossorigin="anonymous">
@@ -10,7 +11,6 @@
 
 <body>
 
-  <!-- <input data-bind="value: Name"/> -->
 
   <div style="margin-left: 25px;">
 
@@ -21,9 +21,10 @@
     </script>
 
     <fieldset>
-      <legend class="well">
+
+      <!-- <legend class="well">
         User: <strong data-bind="text: errors().length"></strong> errors
-      </legend>
+      </legend> -->
 
 
       <p>Mouse over the tag name for more information.</p>
@@ -33,28 +34,19 @@
         <input type="text" data-bind="textInput: Name" />
       </div>
 
-      <div class="row" data-bind="validationOptions: { messageTemplate: 'customMessageTemplate' }">
+      <div class="row">
         <label title="indicates what division owns the resource">division</label>
         <!-- TODO use long names (find them...)-->
-        <select data-bind="value: division" data-none-selected-text="Nothing selected">
-            <option></option>
-            <option>ad</option>
-            <option>bs</option>
-            <option>cb</option>
-            <option>cp</option>
-            <option>cr</option>
-            <option>hd</option>
-            <option>ph</option>
-            <option>ra</option>
-            <option>sr</option>
-            <option>vi</option>
+        <select data-bind="options: divisionOptions,
+        optionsCaption: 'Choose one...', value: division">
           </select>
       </div>
 
 
-      <div class="row" data-bind="validationOptions: { messageTemplate: 'customMessageTemplate' }">
+      <div class="row">
         <label title="indicates which department or lab owns the resource">department</label>
-        <select id="department_select" data-placeholder="Select an item..." data-bind="options: departmentOptions, value: department">
+        <select id="department_select"
+        data-bind="options: departmentOptions, value: department, optionsCaption: 'Choose one...'">
           </select>
       </div>
 
@@ -96,12 +88,9 @@
 
 
       <div class="row">
-        <label title="indicates the highest level sensitivity level of the data that is stored, processed on this resource">data_classification</label>
-        <select data-bind="value: data_classification">
-          <option></option>
-          <option>I</option>
-          <option>II</option>
-          <option>III</option>
+        <label title="indicates the highest level sensitivity level of the data that is stored, processed on this resource"
+        >data_classification</label>
+        <select data-bind="options: data_classificationOptions, value: data_classification, optionsCaption: 'Choose one...'">
         </select>
       </div>
 
@@ -109,9 +98,17 @@
     </fieldset>
 
     <fieldset>
-      <button type="button" data-bind='click: submit'>Submit</button> &nbsp;
+      <!-- <button type="button" data-bind='click: submit'>Submit</button> &nbsp; -->
+      <button type="button" data-bind='click: toJson'>JSON</button> &nbsp;
+      <button type="button" data-bind='click: toYaml'>YAML</button> &nbsp;
+      <button type="button" data-bind='click: toTf'>Terraform</button> &nbsp;
+
       <button type="button" data-bind='click: reset'>Reset</button> &nbsp;
     </fieldset>
+
+    <p>Output:</p>
+    <pre data-bind="text: output">
+    </pre>
 
   </div>
 
@@ -123,7 +120,9 @@
     crossorigin = "anonymous" >
   </script>
   <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.3/chosen.jquery.min.js"></script>
-  <script src="taghelper.js" tyoe="text/javascript" charset="utf8"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/yamljs/0.3.0/yaml.min.js"></script>
+  <script src="json2hcl.js" type="text/javascript" charset="utf8"></script>
+  <script src="taghelper.js" type="text/javascript" charset="utf8"></script>
 </body>
 
 </html>

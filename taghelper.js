@@ -1,14 +1,43 @@
 $(document).ready(function() {
-  // $("#department_select").chosen();
 
   $.ajax({
-    url: "https://toolbox.fhcrc.org/sw2srv/get_depts",
+    // url: "https://toolbox.fhcrc.org/sw2srv/get_depts",
+    url: 'depts.json', // FIXME CHANGEME TODO change this back
     jsonp: 'callback',
     dataType: 'jsonp'
   });
 
 
 });
+
+// utilities
+
+var toPlainObject = function() {
+    wantedItems = ['Name', 'division', 'department', 'technical_contact',
+                   'budget_number', 'description', 'service', 'project',
+                   'data_classification'];
+    plainObject = {};
+    wantedItems.forEach(function(key) {
+        value = viewModel[key]();
+        if (key != "") {
+            plainObject[key] = value;
+        }
+    });
+    return plainObject;
+}
+
+
+var hasErrors = function() {
+    if (viewModel.errors().length > 0) {
+        alert("There were errors in your input.");
+        viewModel.errors.showAllMessages();
+        return true;
+    }
+    return false;
+}
+
+// ko validation & viewmodel
+
 
 
 ko.validation.rules.pattern.message = 'Invalid.';
@@ -22,13 +51,6 @@ ko.validation.init({
 }, true);
 
 
-var captcha = function(val) {
-    return val == 11;
-};
-
-var mustEqual = function(val, other) {
-    return val == other;
-};
 
 var viewModel = {
     Name: ko.observable().extend({
@@ -39,6 +61,8 @@ var viewModel = {
       }
     }),
     division: ko.observable().extend({required: true}),
+    divisionOptions: ko.observableArray(
+        ['ad', 'bs', 'cb', 'cp', 'cr', 'hd', 'ph', 'ra', 'sr', 'vi']),
 
     department: ko.observable().extend({required: true}),
     departmentOptions: ko.observableArray(),
@@ -68,7 +92,10 @@ var viewModel = {
       }
     }),
 
-    data_classification: ko.observable().extend({required: true}),
+    data_classification: ko.observable().extend({required: true, minLength: 1}),
+    data_classificationOptions: ko.observableArray(['I', 'II', 'III']),
+
+    output: ko.observable(),
 
     submit: function() {
         if (viewModel.errors().length === 0) {
@@ -78,6 +105,25 @@ var viewModel = {
             alert('Please check your submission.');
             viewModel.errors.showAllMessages();
         }
+    },
+
+    toJson: function() {
+        if (hasErrors()) {
+            return
+        }
+        viewModel.output(JSON.stringify(toPlainObject(), null, 4));
+    },
+    toYaml: function() {
+        if (hasErrors()) {
+            return
+        }
+        viewModel.output(YAML.stringify(toPlainObject(), null, 4));
+    },
+    toTf: function() {
+        if (hasErrors()) {
+            return
+        }
+        viewModel.output(golib.toHCL(JSON.stringify(toPlainObject())));
     },
     reset: function() {
         Object.keys(viewModel).forEach(function(name) {
@@ -97,8 +143,10 @@ viewModel.errors = ko.validation.group(viewModel);
 ko.applyBindings(viewModel);
 
 var callback = function(obj) {
-  obj.unshift("");
   viewModel.departmentOptions(obj);
   viewModel.departmentOptions.extend({required: true, minLength: 1});
+
   $("#department_select").chosen({placeholder_text_single: "Select an option..."});
+
+
 }
